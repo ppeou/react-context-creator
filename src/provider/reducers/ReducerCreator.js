@@ -44,6 +44,7 @@ const ReducerCreator = (reducerDef) => {
   let actionList = {};
   let actionTypes = {};
   let actionTypeId;
+
   Object.keys(reducerDef).forEach((actionType) => {
     const {statePath, actionHandler} = reducerDef[actionType];
     actionTypeId = generateUniqueActionID(actionType);
@@ -60,6 +61,10 @@ const ReducerCreator = (reducerDef) => {
       const newValue = actionHandler ? actionHandler(subState, value) : value;
       if(newValue !== subState) {
         return setPath(state, statePath, newValue);
+      }
+    } else if(statePath === '' || statePath === undefined || statePath === null) {
+      if(actionHandler) {
+        newState = actionHandler(state, value);
       }
     }
     return newState;

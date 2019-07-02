@@ -33,6 +33,13 @@ const {reducer: CountryReducer, actionTypes} = ReducerCreator(
       actionHandler: (subState, value) => {
         return subState + value;
       }
+    },
+    HANDLE_TOP_LEVEL: { // if user prefer a single function to handle whole state
+      statePath: '',
+      actionHandler: (state, value) => {
+        console.log(state);
+        return state;
+      }
     }
   });
 
