@@ -1,14 +1,14 @@
-const CountryReducer = (state, action) => {
-  const {type, value} = action;
-  let newState = state;
+import ReducerCreator from './ReducerCreator';
 
-  if(type === 'SET-COUNTRY-DATA') {
-    newState = Object.assign({}, state, {data: value});
-  } else if(type === 'SET-COUNTRY-GRID') {
-    newState = Object.assign({}, state, {grid: value});
-  }
-
-  return newState;
-};
+const CountryReducer = ReducerCreator(
+  [
+    {action: 'SET-COUNTRY-DATA', statePath: 'data'},
+    {action: 'SET-COUNTRY-GRID', statePath: 'grid'},
+    {action: 'SET-STATES', statePath: 'states',
+      reducer: (item, {id, name}) => {
+        return Object.assign({}, item, {[id]: {id, name}})
+      }
+    },
+  ]);
 
 export default CountryReducer;
