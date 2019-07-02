@@ -4,7 +4,7 @@ import ContextCreator from './ContextCreator';
 
 const {Context: CountryContext, Provider: CountryProvider} =
   ContextCreator({
-    initialValue: {data: [], grid: undefined, states: {}},
+    initialValue: {data: [], grid: undefined, states: {}, todos: []},
     reducers: CountryReducer,
     actions: {...CountryActions}
   });

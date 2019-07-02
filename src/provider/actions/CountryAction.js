@@ -1,26 +1,44 @@
-import CountryReducer from "../reducers/CountryReducer";
+import {actionTypes} from "../reducers/CountryReducer";
+
+const {SET_COUNTRY_DATA, SET_COUNTRY_GRID, SET_STATE, ADD_TODO, REMOVE_STATE_NAME} = actionTypes;
 
 const getData = (dispatch) => {
   return (value) => {
-    dispatch({type: 'SET-COUNTRY-DATA', value: 'my country data ' + value});
+    setTimeout(() => {
+      dispatch({type: SET_COUNTRY_DATA, value: 'my country data ' + value});
+    }, 5000);
   }
 };
 
 const getGrid = (dispatch) => {
   return (value) => {
-    dispatch({type: 'SET-COUNTRY-GRID', value: 'my country grid ' + value});
+    dispatch({type: SET_COUNTRY_GRID, value: 'my country grid ' + value});
   }
 };
 
 const setState = (dispatch) => {
   return (value) => {
-    dispatch({type: 'SET-STATES', value: {id: value, name: `state : ${value}`}});
+    dispatch({type: SET_STATE, value: {id: value, name: `state ${value}`}});
   };
 };
 
 const updateState = (dispatch) => {
   return (value) => {
-    dispatch({type: 'SET-STATES', value: {id: value, name: `updated state : ${new Date()}`}});
+    dispatch({type: SET_STATE, value: {id: value, name: `updated state : ${new Date()}`}});
+  };
+};
+
+const removeState = (dispatch) => {
+  return (value) => {
+    dispatch({type: REMOVE_STATE_NAME, value});
+  };
+};
+
+
+
+const addToDo = (dispatch) => {
+  return (value) => {
+    dispatch({type: ADD_TODO, value});
   };
 };
 
@@ -30,6 +48,6 @@ const fakeUpdate = (dispatch) => {
   };
 };
 
-const actions = {getData, getGrid, setState, updateState, fakeUpdate};
+const actions = {getData, getGrid, setState, updateState, addToDo, removeState, fakeUpdate};
 
 export default  actions;

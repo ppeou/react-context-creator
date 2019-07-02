@@ -1,7 +1,7 @@
 const getPath = (root, path) => {
   let prop = root;
   let parts = path.toString().split('.');
-  for (let i=0; i<parts.length; i++) {
+  for (let i = 0; i < parts.length; i++) {
     if (!prop) {
       return;
     }
@@ -27,36 +27,42 @@ const setPath = (root, path, value) => {
     }
     prop[last] = value;
   } else {
-    prop[path] = value;
+    prop = Object.assign({}, prop,{[path]: value});
   }
 
   return prop;
 };
 
-const ReducerCreator = (arr) => {
+const generateUniqueActionID = (id) => {
+  return id + '-' + new Date().getTime();
+};
+
+const ReducerCreator = (reducerDef) => {
   let actionList = {};
-  arr.forEach(({action, statePath, reducer}) => {
-    if(!actionList[action]) {
-      actionList[action] = {action, statePath, reducer};
-    } else {
-      throw Error(`Action Type: "${action}" is already used.`);
-    }
+  let actionTypes = {};
+  let actionTypeId;
+  Object.keys(reducerDef).forEach((actionType) => {
+    const {statePath, actionHandler} = reducerDef[actionType];
+    actionTypeId = generateUniqueActionID(actionType);
+    actionTypes[actionType] = actionTypeId;
+    actionList[actionTypeId] = {statePath, actionHandler};
   });
 
-  return (state, action) => {
+  const reducer = (state, action) => {
     const {type, value} = action;
-    const {statePath, reducer} = actionList[type] || {};
+    const {statePath, actionHandler} = actionList[type] || {};
     let newState = state;
-    if(reducer) {
+    if (statePath) {
       const src = getPath(state, statePath);
-      newState = Object.assign({}, setPath(state, statePath, reducer(src, value)));
-    } else {
-      if(statePath) {
-        newState = Object.assign({}, setPath(state, statePath, value));
+      const newValue = actionHandler ? actionHandler(src, value) : value;
+      if(newValue !== src) {
+        newState = Object.assign({}, setPath(state, statePath, newValue));
       }
     }
     return newState;
   };
+
+  return {reducer, actionTypes};
 };
 
 export default ReducerCreator;
