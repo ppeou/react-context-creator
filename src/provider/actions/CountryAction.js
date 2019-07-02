@@ -1,6 +1,6 @@
 import {actionTypes} from "../reducers/CountryReducer";
 
-const {SET_COUNTRY_DATA, SET_COUNTRY_GRID, SET_STATE, ADD_TODO, REMOVE_STATE_NAME} = actionTypes;
+const {SET_COUNTRY_DATA, SET_COUNTRY_GRID, SET_STATE, ADD_TODO, REMOVE_STATE_NAME, UPDATE_FLEX_NAME} = actionTypes;
 
 const getData = (dispatch) => {
   return (value) => {
@@ -34,6 +34,11 @@ const removeState = (dispatch) => {
   };
 };
 
+const updateFlexName = (dispatch) => {
+  return (value) => {
+    dispatch({type: UPDATE_FLEX_NAME, value});
+  };
+};
 
 
 const addToDo = (dispatch) => {
@@ -48,6 +53,6 @@ const fakeUpdate = (dispatch) => {
   };
 };
 
-const actions = {getData, getGrid, setState, updateState, addToDo, removeState, fakeUpdate};
+const actions = {getData, getGrid, setState, updateState, addToDo, removeState, updateFlexName, fakeUpdate};
 
 export default  actions;

@@ -15,6 +15,7 @@ const setPath = (root, path, value) => {
   let prop = root;
   let parts = path.toString().split('.');
   let last = parts[parts.length - 1];
+  let prevProp;
   if (parts.length > 1) {
     for (let i = 0; i < parts.length - 1; i++) {
       let part = parts[i];
@@ -23,14 +24,16 @@ const setPath = (root, path, value) => {
           prop[part] = {};
         }
       }
+      prevProp = prop;
       prop = prop[part];
     }
     prop[last] = value;
+    return Object.assign({}, root);
   } else {
     prop = Object.assign({}, prop,{[path]: value});
+    return prop;
   }
-
-  return prop;
+  return root;
 };
 
 const generateUniqueActionID = (id) => {
@@ -53,10 +56,10 @@ const ReducerCreator = (reducerDef) => {
     const {statePath, actionHandler} = actionList[type] || {};
     let newState = state;
     if (statePath) {
-      const src = getPath(state, statePath);
-      const newValue = actionHandler ? actionHandler(src, value) : value;
-      if(newValue !== src) {
-        newState = Object.assign({}, setPath(state, statePath, newValue));
+      const subState = getPath(state, statePath);
+      const newValue = actionHandler ? actionHandler(subState, value) : value;
+      if(newValue !== subState) {
+        return setPath(state, statePath, newValue);
       }
     }
     return newState;

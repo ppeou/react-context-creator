@@ -6,8 +6,8 @@ let stateId;
 const CountryView = () => {
 
   console.log('CountryView Component Render');
-  const {data, grid, states, todos,
-    getData, getGrid, setState, updateState, addToDo, removeState,
+  const {data, grid, states, todos, flexObject,
+    getData, getGrid, setState, updateState, addToDo, removeState, updateFlexName,
     fakeUpdate} = useContext(CountryContext);
   const onClickData = (e) => { seedData++; getData(seedData);};
   const onClickGrid = (e) => { seedGrid++; getGrid(seedGrid);};
@@ -16,6 +16,7 @@ const CountryView = () => {
   const onClickAddToDo = (e) => {seedTodo++; addToDo(`To do: ${seedTodo}`);};
   const onClickFakeUpdate = (e) => { fakeUpdate();};
   const onClickRemoveState = (e) => {removeState(stateId);};
+  const onClickUpdateFlexName = (e) => {updateFlexName(new Date());};
 
   const onChange = (e) => {
     stateId = Number(e.target.value);
@@ -30,11 +31,13 @@ const CountryView = () => {
     <div>{data} - {grid}</div>
     <div>{JSON.stringify(todos)}</div>
     <div>{JSON.stringify(states)}</div>
+    <div>{JSON.stringify(flexObject)}</div>
     <button onClick={onClickData}>Increase Data</button>
     <button onClick={onClickGrid}>Increase Grid</button>
     <button onClick={onClickState}>Add State</button>
     <button onClick={onClickUpdateState}>Update State</button>
     <button onClick={onClickAddToDo}>Add ToDo</button>
+    <button onClick={onClickUpdateFlexName}>Update Flex Name</button>
     <button onClick={onClickFakeUpdate}>Fake Update</button>
     <div>
       <input type="text" onChange={onChange} /><button onClick={onClickRemoveState}>Remove State</button>

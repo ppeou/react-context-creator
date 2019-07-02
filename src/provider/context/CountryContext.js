@@ -4,7 +4,9 @@ import ContextCreator from './ContextCreator';
 
 const {Context: CountryContext, Provider: CountryProvider} =
   ContextCreator({
-    initialValue: {data: [], grid: undefined, states: {}, todos: []},
+    initialValue: {data: [], grid: undefined, states: {},
+      todos: [], flexObject: {name: {last: 'My Last', first: 'My First'}, data: [1,2,3,4]}
+    },
     reducers: CountryReducer,
     actions: {...CountryActions}
   });

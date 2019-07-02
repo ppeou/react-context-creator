@@ -6,28 +6,34 @@ const {reducer: CountryReducer, actionTypes} = ReducerCreator(
     SET_COUNTRY_GRID: {statePath: 'grid'},
     SET_STATE: {
       statePath: 'states',
-      actionHandler: (item, {id, name}) => {
-        return Object.assign({}, item, {[id]: {id, name}})
+      actionHandler: (subState, {id, name}) => {
+        return Object.assign({}, subState, {[id]: {id, name}})
       }
     },
     REMOVE_STATE_NAME: {
       statePath: 'states',
-      actionHandler: (item, id) => {
-        if(item[id]) {
-         const newItem = Object.assign({}, item);
+      actionHandler: (subState, id) => {
+        if(subState[id]) {
+         const newItem = Object.assign({}, subState);
          delete newItem[id];
          return newItem;
         } else {
-          return item;
+          return subState;
         }
       }
     },
     ADD_TODO: {
       statePath: 'todos',
-      actionHandler: (item, name) => {
-        return [...item, name];
+      actionHandler: (subState, name) => {
+        return [...subState, name];
       }
     },
+    UPDATE_FLEX_NAME: {
+      statePath: 'flexObject.name.last',
+      actionHandler: (subState, value) => {
+        return subState + value;
+      }
+    }
   });
 
 export {CountryReducer as default, actionTypes};
